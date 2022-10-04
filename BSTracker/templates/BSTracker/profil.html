@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+{% load static %} 
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<div class="bg-container">
+    <a class="arrow" href="/">
+        <i class="bi-arrow-left-short"></i>
+    </a>
+    <div class="profilContainer">
+        <form class="form" action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <div style="width: 100px; height: 100px; border-radius: 30px;" >
+                    <img src="/static/images/dead-body.png"alt="profil picture"/>
+                </div>
+                <label for="room_name">Nom</label>
+                <input type="text" name="username" placeholder="Votre nom" />   
+                <label for="room_name">Prénom</label>
+                <input type="text" name="username" placeholder="Votre prénom" /> 
+                <label for="room_name">Wilaya</label>
+                <input type="text" name="username" placeholder="Votre wilaya" />
+                <label for="room_name">Email</label>
+                <input type="text" name="username" placeholder="contact@gmail.com" />
+            </div>
+            <button class="btn" type="submit">
+            Modifier
+            </button>
+            <br/>
+            
+      </form>
+    </div>
+</div>
+
+
+{% endblock %}

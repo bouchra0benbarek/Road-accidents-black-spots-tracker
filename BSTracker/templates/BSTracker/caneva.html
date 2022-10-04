@@ -1,0 +1,93 @@
+{% extends 'main.html' %}
+{% block content %}
+{% include 'newmain.html' %}
+<div class="canevas-container">
+    <h1 style="margin-left:15%"> Caneva de traitement des points noirs routiers de la wilaya {{caneva_info.wilaya}}</h1>
+    <div class="cnv-props">
+        <div>Wilaya : {{caneva_info.wilaya}} </div>
+        <div>Trimestre: {{caneva_info.trimestre}} </div>
+        <div>Année: {{caneva_info.year}} </div>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">N°</th>
+                    <th rowspan="2">Point noir</th>
+                    <th rowspan="2">Commune</th>
+                    <th rowspan="2">Localisation</th>
+                    <th rowspan="2">PK</th>
+                    <th rowspan="2">Latitude</th>
+                    <th rowspan="2">Longitude</th>
+                    <th colspan="3" scope="colgroup">Nombre de victimes</th>
+                    <th rowspan="2">Problèmes</th>
+                    <th rowspan="2">Mesures prises ou envisagées</th>
+                    <th rowspan="2">Observations</th>
+                    <th rowspan="2">Photos</th>
+                </tr>
+                <tr>
+                    <th scope="col">A</th>
+                    <th scope="col">T</th>
+                    <th scope="col">B</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in caneva %}
+                <tr>
+                    <th>{{c.id }}</th>
+                    <th>{{c.point_noir}}</th>
+                    <th>{{c.commune}}</th>
+                    <th>{{c.localisation}}</th>
+                    <th>{{c.valeur_pk}}</th>
+                    <th>{{c.lat}}</th>
+                    <th>{{c.lon}}</th>
+                    <th>{{c.nb_accidents}}</th>
+                    <th>{{c.nb_tues}}</th>
+                    <th>{{c.nb_blesses}}</th>
+                    <th>{{c.causes}}</th>
+                    <th>{{c.mesures}}</th>
+                    <th>{{c.observations}}</th>
+                    <th>
+                        <!-- <i class="bi-file-earmark-image" id="button"></i> -->
+                        <img src="{{c.images.url }}" width="120" />
+                    </th>
+                </tr>
+                {% endfor %}
+             
+            </tbody>
+        </table>
+        <table class="bilan">
+            <thead>
+                <th> Nombre de points noirs </th>
+                <th> Nombre d'accidents </th>
+                <th> Nombre de tués </th>
+                <th> Nombre de blessés </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th> {{total_PN}} </th>
+                    <th> {{total_accidents.nb_accidents__sum}} </th>
+                    <th> {{total_tues.nb_tues__sum}} </th>
+                    <th> {{total_blesses.nb_blesses__sum}} </th>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <div class="bg-modal">
+            <div class="modal-contents">
+                <div class="close" id="close">+</div>
+                    <h2 class="fs-title">Photo(s) du point noir</h2>
+                   
+                </div>
+            </div>
+        </div> -->
+        <script>
+            document.getElementById('button').addEventListener("click", function() {
+                    document.querySelector('.bg-modal').style.display = "flex";
+                });
+            document.getElementById('close').addEventListener("click", function() {
+                    document.querySelector('.bg-modal').style.display = "none";
+                });
+        </script>
+</div>
+{% endblock content %}

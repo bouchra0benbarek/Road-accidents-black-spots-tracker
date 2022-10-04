@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'styles/styling.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Track all BS easily!</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+        integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+        crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+    <script src="./dz-wilaya.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+
+    <style> #map{height: 900px; width: 78%; margin-left: 21%; margin-top: 1%; position:absolute; z-index: 1;} 
+    #map-form{height: 300px; width: 100%;} 
+    #chart_PN {
+        max-width: 650px;
+        margin: 35px auto;
+        box-shadow: 1px 1px 13px #ededed;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        }
+        #chart_Acc {
+        max-width: 650px;
+        margin: 35px auto;
+        box-shadow: 1px 1px 13px #ededed;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        }
+        #chart_Dead {
+        max-width: 650px;
+        margin: 35px auto;
+        box-shadow: 1px 1px 13px #ededed;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        }
+        #chart_Injuries {
+        max-width: 650px;
+        margin: 35px auto;
+        box-shadow: 1px 1px 13px #ededed;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        }
+        #chart_PNperYear{
+            max-width: 650px;
+            box-shadow: 1px 1px 13px #ededed;
+            display: flex;
+        justify-content: flex-start;
+        align-items: center;
+            
+        }
+
+        #chart_tauxPN{
+            max-width: 650px;
+            margin: 35px 35px;
+            box-shadow: 1px 1px 13px #ededed;   
+            display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+        .filter-cards{
+            display: flex;
+            flex-direction: column;
+        }
+        .filter_dash{
+            display: flex;
+            flex-direction: column;
+            width: 140px;
+            margin-left: 4%;
+            margin-top: 3%;
+            height: 0px;
+
+        }
+        .filter_wrapper{
+            display: flex;
+            flex-direction: row;
+            margin-left: 20%;
+        }
+    
+.charts{
+  display: grid;
+  grid-template-columns: repeat(2, 570px);
+  justify-content: center;
+    margin-left: 20%;
+    margin-top: 4%;
+}
+    .popup{
+        font-size: 16px;
+    }
+    .circle-with-txt {
+        position: relative;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        width: 40px;
+        height: 40px;
+      }
+      .txt {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        color: black;
+      }
+      
+        .filter-box{
+        background-color: white;
+        width: 350px;
+        position: absolute;
+        z-index: 2;
+        left: 76%;
+        box-shadow: 1px 1px 12px #ababab;
+        top: 10%;
+        }
+        .filter-items{
+            display: flex;
+            flex-direction: column;
+            padding: 10%;
+        } 
+        .filter-item{
+            display: flex;
+            flex-direction: column;
+        }
+        .filter-item span{
+            /* margin-left: 8%; */
+            margin-bottom: 1%;
+            font-weight: 500;
+        }
+        .filter-item .item{
+            border: 1px solid #d3d6d9;
+            height: 31px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            padding-left: 6px;
+        }
+        .rech-btn{
+            color: white;
+            background-color: rgb(13, 182, 126);
+            font-size: 18px;
+            height: 33px;
+            border: 0;
+            border-radius: 4px;
+            margin-top: 12px;
+            }
+        .card{
+            box-shadow: 1px 1px 13px #e4e4e4;
+            height: 180px;
+            width: 237px;
+            border-radius: 6px;
+            margin-top: 2%;
+            color: #8898aa!important;
+            padding-left: 20px;
+        }
+        .card h5{
+            margin-bottom: 0!important;
+            font-size: 12px;
+            text-transform: uppercase!important;
+        }
+        .card .col span{
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 0!important;
+            color: black;
+        }
+        .cards-wrapper{
+            display: flex;
+            flex-direction: row;
+            margin-left: 21%;
+            justify-content: space-around;
+        }
+        .card-text{
+            display: flex;
+            flex-direction: column;
+            font-size: 12px;
+        }
+        .card .row{
+            display: flex;
+            flex-direction: row;
+        }
+        .card .col{
+            max-width: 100%;
+            flex-basis: 0;
+            flex-grow: 1;
+        }
+        .card .col-auto{
+            width: auto;
+            padding-left: 37%;
+            padding-top: 9%;
+        }
+        .card img{
+            width: 68%;
+        }
+      </style>
+</head>
+
+<body>
+
+    
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% block content %}
+
+
+    {% endblock %}
+
+
+</body>
+
+</html>

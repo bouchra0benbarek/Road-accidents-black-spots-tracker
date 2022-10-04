@@ -1,0 +1,310 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+{% include 'newmain.html' %}
+<div>
+    <div class="cards-wrapper">
+        <div class="card">
+            <div class="row">
+                <div class="col">
+                <h5>Points noirs </h5>
+                <!-- <span>{{totalPN}}</span> -->
+                <span>653</span>
+                </div>
+                <div class="col-auto">
+                    <img src="{% static 'images/BS.png' %}" alt="point noir"/>
+                </div>
+            </div>
+            <p class="card-text">
+                <span>
+                    L'année dernière : 610</span>
+                <span>Par rapport à l'année dernière : 6%</span>
+            </p>
+        </div>
+        <div class="card">
+            <div class="row">
+                <div class="col">
+                    <h5>Accidents</h5>
+                    <span>
+                        <!-- {{total_acc.total_acc__sum}} -->
+                        23409
+                    </span>
+                </div>
+                <div class="col-auto">
+                    <img src="{% static 'images/accident.png' %}" alt="accident"/>
+                </div>
+            </div>
+            <p class="card-text">
+                <span>L'année dernière : 18949</span>
+                <span>Par rapport à l'année dernière : 20.56%</span>
+            </p>
+        </div>
+        <div class="card">
+            <div class="row">
+                <div class="col">
+                <h5>Tués</h5>
+                <span>
+                    <!-- {{total_dead.total_dead__sum}} -->
+                    3293
+                </span>
+                </div>
+                <div class="col-auto">
+                    <img src="{% static 'images/dead-body.png' %}" alt="tués"/>
+                </div>
+            </div>
+            <p class="card-text">
+                <span>L'année dernière : 2844</span>
+                <span>Par rapport à l'année dernière : 24.73%</span>
+            </p>
+        </div>
+        <div class="card">
+            <div class="row">
+                <div class="col">
+                <h5>Blessés</h5>
+                <span>
+                    <!-- {{total_injured.total_injured__sum}} -->
+                    31675
+                </span>
+                </div>
+                <div class="col-auto">
+                    <img src="{% static 'images/patient.png' %}" alt="blessés"/>
+                </div>
+            </div>
+            <p class="card-text">
+                <span>L'année dernière : 25836</span>
+                <span>Par rapport à l'année dernière : 18.17%</span>
+            </p>
+        </div>
+    </div>
+    <div class="filter-cards">
+       <div class="filter_wrapper">
+        <div class="filter_dash">
+            <span>Année</span>
+            <select name="annee" class="item">
+                <option value="" selected hidden style="color: rgb(233, 231, 231);">Année</option>
+                <option>2030</option>
+                <option>2029</option>
+                <option>2028</option>
+                <option>2027</option>
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+            </select>
+        </div>
+        <div class="filter_dash">
+            <span>wilaya</span>
+            <select name="wilaya"  >
+                <option value="" selected hidden style="color: rgb(233, 231, 231);">Wilaya</option>
+                {% for w in wilayas %}
+                    <option value="">{{w.name_wilaya}}</option>
+                {% endfor %}
+            </select>
+        </div>
+       </div>
+        <div class="charts">
+            <div id="chart_PN"></div>
+            <div id="chart_PNperYear"></div>
+            <div id="chart_Acc"></div>
+            <div id="chart_Dead"></div>
+            <div id="chart_Injuries"></div>
+            <!-- <div id="chart_PNperYear"></div> -->
+            <div id="chart_tauxPN"></div>
+        </div>
+    </div>
+    
+    <script>
+        var ListPN_wilaya = JSON.parse('{{listPN_wialya}}')
+        var ListAcc_wilaya = JSON.parse('{{listAcc_wialya}}')
+        var ListDead_wilaya = JSON.parse('{{listDead_wialya}}')
+        var ListInjuries_wilaya = JSON.parse('{{listInjuries_wialya}}')
+        var ListPNperYear = JSON.parse('{{listPNperYear}}')
+        
+        console.log(ListPN_wilaya)
+        // var url = 'http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly';
+
+        // $.getJSON(ListPN_wilaya, function(response) {
+        // chart.updateSeries([{
+        //     name: 'Sales',
+        //     data: response
+        // }])
+        // console.log(response)
+        // });
+
+        var options1 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [
+                // {data : ListPN_wilaya}
+                {data: [{
+                    x: 'Canstantine',
+                    y: 56
+                    }, {
+                    x: ' Skikda',
+                    y: 47
+                    }, {
+                    x: 'Jijel',
+                    y: 42
+                    },
+                    {
+                    x: 'Ghardaïa',
+                    y: 42
+                    },
+                    {
+                    x: 'Oran',
+                    y: 31
+                    },
+                    {
+                    x: 'Blida',
+                    y: 26
+                    },
+                    {
+                    x: 'Alger',
+                    y: 22
+                    },
+                    {
+                    x: 'Bejaia',
+                    y: 25
+                    },
+                    {
+                    x: 'Mila',
+                    y: 24
+                    },
+                    {
+                    x: 'Khenchela',
+                    y: 30
+                    },
+                    {
+                    x: 'Saida',
+                    y: 23
+                    },
+                    {
+                    x: 'Mascara',
+                    y: 32
+                    },
+                ]}
+            ],
+            title: {
+                text: 'La répartition des points noirs par wilaya',
+            },
+            noData: {
+                text: 'Loading...'
+            }
+}
+var options2 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [
+                {data : ListAcc_wilaya}
+            ],
+            title: {
+                text: 'La répartition des accidents par wilaya',
+            },
+            noData: {
+                text: 'Loading...'
+            }
+}
+var options3 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [
+                {data : ListDead_wilaya}
+            ],
+            title: {
+                text: 'La répartition des tués par wilaya',
+            },
+            noData: {
+                text: 'Loading...'
+            }
+}
+var options4 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [
+                {data : ListInjuries_wilaya}
+            ],
+            title: {
+                text: 'La répartition des blessés par wilaya',
+            },
+            noData: {
+                text: 'Loading...'
+            }
+}
+
+            var options6 = {
+                    chart: {
+                        type: 'line'
+                    },
+                    series: [{
+                        // data: ListPNperYear
+                        data : [569,532,610,630]
+                    }],
+                    stroke: {
+                    curve: 'smooth',
+                    },
+                    xaxis : {
+                        categories : [2017,2018,2019, 2020, 2021]
+                    }, 
+                    title: {
+                        text: 'Evolution des points noirs par année',
+                    },
+                            }
+            var options7 = {
+                series: [96.56, 2.02, 1.42],
+                chart: {
+                width: 380,
+                type: 'pie',
+                },
+                labels: ['Humain', 'Véhicule', 'Environnement'],
+                responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                    width: 200, 
+                    },
+                    legend: {
+                    position: 'bottom'
+                    },
+                   title : {
+                    text : "cause"
+                   }
+                }, 
+                title: {
+                        text: 'Causes des accidents',
+                    },
+                }]
+        };
+      var chart1 = new ApexCharts(document.querySelector("#chart_PN"), options1).render();
+      var chart2 = new ApexCharts(document.querySelector("#chart_Acc"), options2).render();
+      var chart = new ApexCharts(document.querySelector("#chart_Dead"), options3).render();
+      var chart = new ApexCharts(document.querySelector("#chart_Injuries"), options4).render();
+      var chart = new ApexCharts(document.querySelector("#chart_PNperYear"), options6).render();
+      var chart = new ApexCharts(document.querySelector("#chart_tauxPN"), options7).render();
+    </script>
+</div>
+    
+{% endblock content%}

@@ -1,0 +1,119 @@
+{% extends 'main.html' %}
+{% block content %}
+{% load static %}
+{% include 'newmain.html' %}
+<div class="canevas-container">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 style="margin-left:15%"> Caneva de traitement des points noirs routiers de la wilaya d'Alger</h1>
+        <div class="select-box">
+        
+
+            <select name="selectedValue" id="selector" class="list-wilaya" >
+                <option value="wilaya" selected style="color: rgb(233, 231, 231);">Wilaya</option>
+                {% for w in wilayas %}
+                <option class="selected">{{w.name_wilaya}}</option>
+                {% endfor %}
+            </select>
+            <select name="trimestre" class="list-wilaya" >
+                <option value="Trimestre"  selected hidden style="color: rgb(233, 231, 231);">Trimestre</option>
+                <option value="1">Janvier, Février, Mars</option>
+                <option value="2">Avril, Mai, Juin</option>
+                <option value="3">Juillet, Août, Septembre</option>
+                <option value="4">Octobre, Novembre, Decembre</option>
+            </select>
+            <select name="year" class="list-wilaya" >
+                <option value="Année"  selected hidden style="color: rgb(233, 231, 231);">Année</option>
+                <option>2030</option>
+                <option>2029</option>
+                <option>2028</option>
+                <option>2027</option>
+                <option>2026</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+            </select>
+            
+    
+            <div>
+                <button type="button" id="button"class="btn"><a href="/New-black-spot/{{id}}/Alger">Nouveau <i class="bi-plus"></i> </a> </button>
+            </div>
+        </div>
+        <div>
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">N°</th>
+                    <th rowspan="2" >Point noir</th>
+                    <th rowspan="2">Commune</th>
+                    <th rowspan="2">Localisation</th>
+                    <th rowspan="2">PK</th>
+                    <th rowspan="2">Latitude</th>
+                    <th rowspan="2">Longitude</th>
+                    <th colspan="3" scope="colgroup">Nombre de victimes</th>
+                    <th rowspan="2">Problèmes</th>
+                    <th rowspan="2">Mesures prises ou envisagées</th>
+                    <th rowspan="2">Observations</th>
+                    <th rowspan="2">Photos</th>
+                    <th rowspan="2">Action</th>
+                </tr>
+                <tr>
+                    <th scope="col">A</th>
+                    <th scope="col">T</th>
+                    <th scope="col">B</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in caneva %}
+                <tr class="bs_row">
+                    <th>{{c.id }}</th>
+                    <th>{{c.point_noir}}</th>
+                    <th>{{c.commune}}</th>
+                    <th>{{c.localisation}}</th>
+                    <th>{{c.valeur_pk}}</th>
+                    <th>{{c.lat}}</th>
+                    <th>{{c.lon}}</th>
+                    <th>{{c.nb_accidents}}</th>
+                    <th>{{c.nb_tues}}</th>
+                    <th>{{c.nb_blesses}}</th>
+                    <th>{{c.causes}}</th>
+                    <th>{{c.mesures}}</th>
+                    <th>{{c.observations}}</th>
+                    <th>
+                        <img src="{{c.images.url }}" width="120" />
+                    </th>
+                    <th>
+                        <a><i class="bi-pencil-square"></i></a>
+                        <a href="/delete/{{c.id}}"><i class="bi-trash" id="delete_bs"></i></a>
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table class="bilan">
+            <thead>
+                <th> Nombre de points noirs </th>
+                <th> Nombre d'accidents </th>
+                <th> Nombre de tués </th>
+                <th> Nombre de blessés </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>{{total_PN}}</th>
+                    <th>
+                        {{total_accidents.nb_accidents__sum}}
+                    </th>
+                    <th>{{total_tues.nb_tues__sum}}</th>
+                    <th>{{total_blesses.nb_blesses__sum}}</th>
+                </tr>
+            </tbody>
+        </table>
+        <input type="submit" class="submit-btn"  value="Envoyer"/>
+    </div>
+</form>
+</div>
+{% endblock content %}

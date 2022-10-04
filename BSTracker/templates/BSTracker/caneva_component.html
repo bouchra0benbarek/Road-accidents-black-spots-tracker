@@ -1,0 +1,101 @@
+{% extends 'main.html' %}
+{% block content %}
+{% include 'newmain.html' %}
+<div class="canevas-container">
+    <div>
+       <h1 style="margin-left:2%; margin-top:3%"> Liste de tout les canevas de traitement des points noirs routiers</h1>
+    </div>
+    <div class="select-box" >
+        <select name="wilaya" class="list-wilaya" >
+            <option value="" selected hidden style="color: rgb(233, 231, 231);">Wilaya</option>
+            {% for w in wilayas %}
+                <option value="">{{w.name_wilaya}}</option>
+            {% endfor %}
+        </select>
+        <select name="trimestre" class="list-wilaya" >
+            <option value="" selected hidden style="color: rgb(233, 231, 231);">Trimestre</option>
+            <option>Janvier, Février, Mars</option>
+            <option>Avril, Mai, Juin</option>
+            <option>Juillet, Août, Septembre</option>
+            <option>Octobre, Novembre, Decembre</option>
+        </select>
+        <select name="annee" class="list-wilaya" >
+            <option value="" selected hidden style="color: rgb(233, 231, 231);">Année</option>
+            <option>2030</option>
+            <option>2029</option>
+            <option>2028</option>
+            <option>2027</option>
+            <option>2026</option>
+            <option>2025</option>
+            <option>2024</option>
+            <option>2023</option>
+            <option>2022</option>
+            <option>2021</option>
+            <option>2020</option>
+            <option>2019</option>
+        </select>
+        <button type="button" class="btn"> Appliquer </button>
+    </div>
+    <div class="tbl-prop">
+        <table>
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Titre</th>
+                    <th>Année</th>
+                    <th>Wilaya</th>
+                    <th>Trimestre</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for caneva in canevas %}
+                <tr>
+                    <th>{{caneva.id_caneva}}</th>
+                    <th>{{caneva.title}}</th>
+                    <th>{{caneva.year}}</th>
+                    <th>{{caneva.wilaya}}</th>
+                    <th>{{caneva.trimestre}}</th>
+                    <th>
+                        <button type="button">
+                            <a href="/caneva/{{caneva.id_caneva}}">
+                                Visualiser
+                            </a> 
+                        </button>
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="">
+            <nav class="card-footer-wrapper">
+              <ul class="card-footer">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">
+                    <i class="bi-chevron-left"></i>
+
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2 </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">
+                    <i class="bi-chevron-right"></i>
+
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+    </div>
+    
+    
+</div>
+{% endblock content %} 
