@@ -20,13 +20,19 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from pytz import timezone
-from .models import BlackSpot, caneva, wilaya
+from .models import BlackSpot, caneva, wilaya, report
 from .forms import BlackSpotForm
 from django.db.models import Sum
 from django.utils import timezone
 from django.utils.safestring import mark_safe 
 from django.utils.html import escapejs
 import json
+
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+
 
 
 
@@ -58,7 +64,8 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     context = {}
-    return render(request, 'BSTracker/login_page.html', context)
+    return redirect('login')
+    
 
 
 def displayListCaneva(request):
@@ -150,7 +157,7 @@ def addnewblackspot(request,id, stateName):
         c.nb_accidents = request.POST.get('Pnbaccidents')
         c.nb_tues = request.POST.get('Pnbdead')
         c.nb_blesses = request.POST.get('Pnbinjured')
-        c.causes = request.POST.get('Pcause')
+        c.causes = request.POST.get('causes')
         c.mesures = request.POST.get('Pmesures')
         c.observations = request.POST.get('Premarks')
         c.gps = 12.34567
@@ -199,7 +206,7 @@ def addnewcaneva(request):
     new_caneva.year = 2022
     new_caneva.trimestre = 1
     new_caneva.title = "title2"
-    # new_caneva.save()
+    new_caneva.save()
     
     return redirect('add-new', id= new_caneva.id_caneva)
 
@@ -240,8 +247,60 @@ def editbs(request,id):
 def Displayprofil(request):
     return render(request, 'BSTracker/profil.html')  
 
+def displayReports(request):
+      return render(request, 'BSTracker/reports.html')  
 
+def generateNewReport(request, id):
+    selected_wilaya =  request.POST.get('wilaya')
+    selected_trim =  request.POST.get('trimestre')
+    selected_year =  request.POST.get('year')
+    id_can = caneva.objects.get(wilaya = selected_wilaya, year = selected_year, trimestre = selected_trim).id_caneva
+    
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
 
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    venues = caneva.objects.get(id_caneva = id_can)
+    textob = p.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont("Helvetica", 14)
+    # Create blank list
+    lines = []
+    
+    for venue in venues:
+        lines.append(venue.title)
+        lines.append(" ")
+
+    # Loop
+    for line in lines:
+        textob.textLine(line)
+
+    # Finish Up
+    p.drawText(textob)
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=False, filename='hello.pdf')
+    
+        
+    # return render(request, 'BSTracker/newreport.html')  
+
+def newReport(request):
+    r = report()
+    r.id_report =report.objects.count()+1
+    r.report_title = "title"
+    # r.save()
+    wilayas = wilaya.objects.all()
+    return render(request, 'BSTracker/newreport.html', {"id":r.id_report, "wilayas": wilayas})
 
 
 
@@ -259,7 +318,7 @@ def index(request):
     # context = {'latest_question_list':latest_question_list}
     # return HttpResponse(template.render(context, request))
     # return render(request, 'BSTracker/index.html', context)
-    return(render(request, 'BSTracker/home.html'))
+    return(render(request, 'BSTracker/login_page.html'))
 
 # def detail(request, question_id):
 #     try:

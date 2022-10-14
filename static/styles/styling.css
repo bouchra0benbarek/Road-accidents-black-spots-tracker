@@ -137,6 +137,19 @@ ul{
   font-size: 15px;
 }
 
+
+.report{
+  margin-left: 20%;
+}
+.menu{
+  margin-right: 71%;
+  cursor: pointer;
+}
+
+.layout-nav{
+  display: block;
+}
+
 .logo-login{
 width: 60%;
 margin-top:25px;

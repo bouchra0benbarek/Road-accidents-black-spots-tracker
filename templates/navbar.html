@@ -1,11 +1,16 @@
 {% load static %}
 
 <div class="navbar">
+    <div id="menu" class="menu">
+        <a><i class="bi-list"></i></a>
+      </div>
     <i class="bi-bell"></i>
    <div class="profil-wrapper">
         <a class="profil" href="#">
             <i class="bi-person-circle" id="profil"></i>
-            <label id="profil" >Bouchra.B.</label>
+            {% if request.user.is_authenticated %}
+            <label id="profil" >{{user.get_username}}</label>
+            {% endif %}
             <i class="bi-chevron-down" id="profil"></i>
         </a>
         <div class="bg-profil" >
@@ -28,6 +33,10 @@
         else{
             document.querySelector(".bg-profil").style.display = "flex"
         }
+    })
+
+    document.getElementById("menu").addEventListener('click', function(){
+        
     })
     
 </script>

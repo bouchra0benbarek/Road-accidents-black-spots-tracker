@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% block content %}
+{% include 'newmain.html' %}
+
+<div class="report">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    <select>
+        <option value="" selected hidden style="color: rgb(233, 231, 231);">Type</option>
+        <option>Rapport de synthèse</option>
+        <option>Rapport de traitement</option>
+    </select>
+    <select>
+        <option name = "wilaya" value="" selected hidden style="color: rgb(233, 231, 231);">Wilaya</option>
+        {% for w in wilayas %}
+        <option>{{w.name_wilaya}}</option>
+        {% endfor %}
+    </select>
+    <select>
+        <option  name ="trimestre" value="" selected hidden style="color: rgb(233, 231, 231);">Trimestre</option>
+        <option value="1">Janvier, Février, Mars</option>
+        <option value="2">Avril, Mai, Juin</option>
+        <option value="3">Juillet, Août, Septembre</option>
+        <option value="4">Octobre, Novembre, Decembre</option>
+    </select>
+    <select>
+        <option name="year" value="Année"  selected hidden style="color: rgb(233, 231, 231);">Année</option>
+        <option>2030</option>
+        <option>2029</option>
+        <option>2028</option>
+        <option>2027</option>
+        <option>2026</option>
+        <option>2025</option>
+        <option>2024</option>
+        <option>2023</option>
+        <option>2022</option>
+        <option>2021</option>
+        <option>2020</option>
+        <option>2019</option>
+    </select>
+    <input type="submit" class="submit-btn"  value="Envoyer"/> 
+    </form>
+</div>
+
+{% endblock content %} 

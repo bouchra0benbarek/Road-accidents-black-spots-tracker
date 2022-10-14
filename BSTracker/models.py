@@ -2,9 +2,12 @@
 
 
 
+from contextlib import nullcontext
 from datetime import date
 from distutils.command.upload import upload
 from email.mime import image
+from email.policy import default
+from pickle import TRUE
 from pyexpat import model
 from sys import flags
 from time import time
@@ -65,6 +68,9 @@ class BlackSpot(models.Model):
 
 
 
+class report(models.Model):
+    id_report = models.BigIntegerField(primary_key = TRUE, null = False)
+    report_title = models.TextField()
 
 
 

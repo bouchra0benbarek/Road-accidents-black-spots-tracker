@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('', views.displaydashboard, name='home'),
     path('login/', views.loginPage, name='login'),
     path('logout/', views.logoutUser, name='logout'),
     path('caneva/<int:id>', views.displayCaneva, name="caneva"),
@@ -19,6 +19,9 @@ urlpatterns = [
     path('delete/<int:id>', views.deletebs, name="delete"),
     path('edit/<int:id>', views.editbs, name="edit"),
     path('New-black-spot/<int:id>/<str:stateName>', views.addnewblackspot, name='New-black-spot'),
+    path('reports/', views.displayReports, name="reports"),
+    path('report/new/<int:id>', views.generateNewReport, name="newReport"),
+    path('report/new', views.newReport, name="newReport"),
     path('profil/', views.Displayprofil, name="profil" ),
     # path('display-list-caneva', views.displaylistcaneva, name='display-list-caneva')
 
